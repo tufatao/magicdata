@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+<!-- 连接池 -->
+<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close"> 
+        <property name="driverClass" value="com.mysql.jdbc.Driver"/> 
+        <property name="jdbcUrl" value="jdbc:mysql://127.0.0.1:3306/magic_data_a?useUnicode=true&amp;characterEncoding=utf-8" />
+       <property name="user" value="root" /> 
+       <property name="password" value="chanyewang321" /> 
+         
+        <property name="minPoolSize" value="5" /> 
+        <property name="maxPoolSize" value="30" /> 
+        <property name="initialPoolSize" value="10"/> 
+        <property name="maxIdleTime" value="60"/> 
+         <property name="acquireIncrement" value="5" /> 
+        <property name="maxStatements" value="0" /> 
+        <property name="idleConnectionTestPeriod" value="60" /> 
+        <property name="acquireRetryAttempts" value="30" /> 
+        <property name="breakAfterAcquireFailure" value="true" /> 
+</bean> 
+
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+		<property name="dataSource">
+			<ref bean="dataSource"></ref>
+		</property>
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">
+					org.hibernate.dialect.MySQLDialect
+				</prop>
+			</props>
+		</property>
+		<property name="mappingResources">
+		<list>
+		<value>com/tao/entity/BidArea.hbm.xml </value>
+		<value>com/tao/entity/BidContent.hbm.xml </value>
+		<value>com/tao/entity/BidContentFilter.hbm.xml </value>
+		<value>com/tao/entity/BidCus.hbm.xml </value>
+		<value>com/tao/entity/BidCusCon.hbm.xml </value>
+		<value>com/tao/entity/BidCusKey.hbm.xml </value>
+		<value>com/tao/entity/BidDownload.hbm.xml </value>
+		<value>com/tao/entity/BidGroup.hbm.xml </value>
+		<value>com/tao/entity/BidKeyword.hbm.xml </value>
+		<value>com/tao/entity/BidMailRecord.hbm.xml </value>
+		<value>com/tao/entity/BidPlaRecord.hbm.xml </value>
+		<value>com/tao/entity/BidProject.hbm.xml </value>
+		<value>com/tao/entity/BidProvince.hbm.xml </value>
+		<value>com/tao/entity/BidPublish.hbm.xml </value>
+		<value>com/tao/entity/BidRecordShow.hbm.xml </value>
+		<value>com/tao/entity/BidTask.hbm.xml </value>
+		<value>com/tao/entity/BidTotal.hbm.xml </value>
+		<value>com/tao/entity/BidUer.hbm.xml </value>
+		</list>
+		</property>
+	</bean>
+	<bean id="hibernateTemplate" class="org.springframework.orm.hibernate3.HibernateTemplate">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	<bean id="dao" class="com.tao.dao.Dao"
+		parent="hibernateTemplate"></bean>
+		
+	<bean id="countService" class="com.tao.service.CountService">
+		<property name="dao" ref="dao" />
+	</bean>
+	<bean id="keyService" class="com.tao.service.KeyService">
+		<property name="dao" ref="dao" />
+	</bean>
+	<bean id="userService" class="com.tao.service.UserService">
+		<property name="dao" ref="dao" />
+	</bean>
+	<bean id="cusService" class="com.tao.service.CusService">
+		<property name="dao" ref="dao" />
+	</bean>
+	<bean id="groupService" class="com.tao.service.GroupService">
+		<property name="dao" ref="dao" />
+	</bean>
+	<bean id="taskService" class="com.tao.service.TaskService">
+		<property name="dao" ref="dao" />
+	</bean>
+	<bean id="proService" class="com.tao.service.ProService">
+		<property name="dao" ref="dao" />
+	</bean>
+	<bean id="bidService" class="com.tao.service.BidService">
+		<property name="dao" ref="dao" />
+	</bean>
+	<bean id="conService" class="com.tao.service.ConService">
+		<property name="dao" ref="dao" />
+	</bean>
+	
+	<bean id="pipeline" class="com.tao.myWebmagic.pipeline.MysqlPipeline2">
+		<property name="dao" ref="dao" />
+	</bean>
+	
+	<bean id="countAction" class="com.tao.action.bid.CountAction">
+		<property name="countService" ref="countService" />
+	</bean>
+	<bean id="userAction" class="com.tao.action.home.UserAction">
+		<property name="userService" ref="userService" />
+		<property name="cusService" ref="cusService" />
+		<property name="proService" ref="proService" />
+		<property name="conService" ref="conService" />
+		<property name="keyService" ref="keyService" />
+		<property name="groupService" ref="groupService" />
+	</bean>
+	<bean id="taskAction" class="com.tao.action.spider.TaskAction">
+		<property name="taskService" ref="taskService" />
+		<property name="proService" ref="proService" />
+	</bean>
+	<bean id="cusAction" class="com.tao.action.spider.CusAction">
+		<property name="cusService" ref="cusService" />
+		<property name="proService" ref="proService" />
+		<property name="keyService" ref="keyService" />
+		<property name="groupService" ref="groupService" />
+	</bean>
+	<bean id="conAction" class="com.tao.action.spider.ConAction">
+		<property name="conService" ref="conService" />
+		<property name="proService" ref="proService" />
+		<property name="taskService" ref="taskService" />
+	</bean>
+	<bean id="keyAction" class="com.tao.action.spider.KeyAction">
+		<property name="keyService" ref="keyService" />
+		<property name="proService" ref="proService" />
+		<property name="groupService" ref="groupService" />
+	</bean>
+	<bean id="groupAction" class="com.tao.action.spider.GroupAction">
+		<property name="groupService" ref="groupService" />
+	</bean>
+	
+	<bean id="publishAction" class="com.tao.action.spider.PublishAction">
+		<property name="conService" ref="conService" />
+	</bean>
+	<bean id="spiderAction" class="com.tao.action.spider.SpiderAction">
+		<property name="taskService" ref="taskService" />
+		<property name="proService" ref="proService" />
+		<property name="groupService" ref="groupService" />
+		<property name="pipeline" ref="pipeline" />
+		<property name="keyService" ref="keyService" />
+	</bean>
+	<bean id="testSpiderAction" class="com.tao.action.spider.TestSpiderAction">
+		<property name="taskService" ref="taskService" />
+		<property name="proService" ref="proService" />
+		<property name="keyService" ref="keyService" />
+		<property name="pipeline" ref="pipeline" />
+	</bean>
+	<bean id="proAction" class="com.tao.action.spider.ProAction">
+		<property name="taskService" ref="taskService" />
+		<property name="proService" ref="proService" />
+	</bean>
+	<bean id="bidAction" class="com.tao.action.bid.BidAction">
+		<property name="bidService" ref="bidService" />
+		<property name="cusService" ref="cusService" />
+		<property name="conService" ref="conService" />
+		<property name="keyService" ref="keyService" />
+		<property name="countAction" ref="countAction" />
+	</bean>
+</beans>

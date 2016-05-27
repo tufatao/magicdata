@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "http://struts.apache.org/dtds/struts-2.1.dtd">
+<struts>
+<!--编码设置-->
+<constant name="struts.i18n.encoding" value="utf-8"></constant>
+<!-- 开发模式下使用,这样可以打印出更详细的错误信息 -->
+    <constant name="struts.devMode" value="true" />
+    
+<package name="action" extends="struts-default">
+
+        <global-results>
+            <result name="error">/error.jsp</result>
+			<result name="success">/success.jsp</result>
+			<result name="login">/login.jsp</result>
+			<result name="regist">/regist.jsp</result>
+			<result name="index">/index.jsp</result>
+        </global-results>
+        
+<!--数据统计-->
+		<action name="countAction"
+			class="countAction">
+			<result name="countShow">jsp/bid/countShow.jsp</result>
+		</action>
+<!--数据采集-->
+		<action name="spiderAction"
+			class="spiderAction">
+			<result name="processTask">jsp/spider/processTask.jsp</result>
+			<result name="runProject">jsp/spider/runPro.jsp</result>
+			<result name="index">jsp/spider/index.jsp</result>
+		</action>
+		
+<!--用户管理-->
+		<action name="userAction"
+			class="userAction">
+			<result name="index">jsp/home/index.jsp</result>
+			
+			</action>
+			
+<!--数据发布-->
+		<action name="bidAction"
+			class="bidAction">
+			<result name="index">jsp/bid/index.jsp</result>
+			<result name="catchInfo">jsp/bid/catchInfo.jsp</result>
+			<result name="mailInfo">jsp/bid/mailInfo.jsp</result>
+			<result name="importInfo">jsp/bid/importInfo.jsp</result>
+			<result name="pushInfo">jsp/bid/pushInfo.jsp</result>
+			<result name="keyCheck">jsp/bid/keyCheck.jsp</result>
+			<result name="cusCheck">jsp/bid/cusCheck.jsp</result>
+			<result name="infoList">jsp/bid/infoList.jsp</result>
+			<result name="countShow">jsp/bid/countShow.jsp</result>
+		</action>
+
+	<!--采集测试管理-->
+		<action name="testSpiderAction"
+			class="testSpiderAction">
+			<result name="taskTest">jsp/spider/taskTest.jsp</result>
+			
+			<result name="conDetail">jsp/spider/conDetail.jsp</result>
+			<result name="pointKey">jsp/spider/pointKey.jsp</result>
+			<result name="urlList">jsp/spider/urlList.jsp</result>
+		</action>
+		<!--信息管理-->
+		<action name="conAction"
+			class="conAction">
+			<result name="conDetail">jsp/spider/conDetail.jsp</result>
+			<result name="conList">jsp/spider/conList.jsp</result>
+		</action>
+		
+<!--项目管理-->
+<action name="proAction"
+			class="proAction">
+			<result name="proDetail">jsp/spider/proDetail.jsp</result>
+			<result name="proList">jsp/spider/proList.jsp</result>
+			<result name="addPro">jsp/spider/addPro.jsp</result>
+		</action>
+<!--数据发布-->
+		<action name="publishAction"
+			class="publishAction">
+		</action>
+
+		<!--任务管理-->
+		<action name="taskAction"
+			class="taskAction">
+			<result name="addTask">jsp/spider/addTask.jsp</result>
+			<result name="taskList">jsp/spider/taskList.jsp</result>
+			<result name="processTask">jsp/spider/processTask.jsp</result>
+			<result name="taskDetail">jsp/spider/taskDetail.jsp</result>
+			<result name="filterDetail">jsp/spider/filterDetail.jsp</result>
+			<result name="addFilter">jsp/spider/addFilter.jsp</result>
+			<result name="filterList">jsp/spider/filterList.jsp</result>
+		</action>
+		
+		
+		<!--关键字管理-->
+		<action name="keyAction"
+			class="keyAction">
+			<result name="keyDetail">jsp/spider/keyDetail.jsp</result>
+			<result name="addKey">jsp/spider/addKey.jsp</result>
+			<result name="updateKey">jsp/spider/updateKey.jsp</result>
+			<result name="keyList">jsp/spider/keyList.jsp</result>
+		</action>
+		
+		
+		<!--分组管理-->
+		<action name="groupAction"
+			class="groupAction">
+			<result name="addGroup">jsp/spider/addGroup.jsp</result>
+			<result name="groupList">jsp/spider/groupList.jsp</result>
+		</action>
+		
+		
+		<!--客户管理-->
+		<action name="cusAction"
+			class="cusAction">
+			<result name="relateKey">jsp/spider/relateKey.jsp</result>
+			<result name="myKeys">jsp/spider/myKeys.jsp</result>
+			<result name="cusKeyDetail">jsp/spider/cusKeyDetail.jsp</result>
+			<result name="cusDetail">jsp/spider/cusDetail.jsp</result>
+			<result name="addCus">jsp/spider/addCus.jsp</result>
+			<result name="cusList">jsp/spider/cusList.jsp</result>
+		</action>
+		<!--文件上传 Start-->	
+
+<!--文件上传 End-->	
+		
+		</package>
+		
+</struts>    

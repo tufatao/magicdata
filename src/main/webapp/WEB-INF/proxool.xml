@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<proxool>
+	<alias>magic_data</alias>
+	<driver-url>jdbc:mysql://127.0.0.1:3306/magic_data_a?useUnicode=true&amp;characterEncoding=utf-8</driver-url>
+	<driver-class>com.mysql.jdbc.Driver</driver-class>
+	<driver-properties>
+		<property name="user" value="root" />
+		<property name="password" value="chanyewang321" />
+	</driver-properties>
+	<minimum-connection-count>2</minimum-connection-count>
+	<maximum-connection-count>40</maximum-connection-count>
+	<simultaneous-build-throttle>20</simultaneous-build-throttle>
+	<prototype-count>2</prototype-count>
+	<!-- 在分配连接前后是否进行有效性测试，这个是解决本问题的关键 -->
+	<test-before-use>true</test-before-use>
+	<test-after-use>true</test-after-use>
+	<house-keeping-test-sql>select CURRENT_DATE</house-keeping-test-sql>
+</proxool>
